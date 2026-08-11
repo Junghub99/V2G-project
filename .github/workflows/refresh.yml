@@ -1,0 +1,46 @@
+name: Refresh live dashboard
+
+on:
+  schedule:
+    - cron: '0 * * * *'   # 매시간 정각(UTC)
+  workflow_dispatch: {}    # Actions 탭에서 수동 실행 가능
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Write config.py from secrets
+        run: |
+          cat > live_forecast/config.py << EOF
+          SERVICE_KEY = "${{ secrets.KMA_SERVICE_KEY }}"
+          JEJU_NX = 53
+          JEJU_NY = 38
+          JEJU_LAT = 33.4996
+          JEJU_LON = 126.5312
+          OWM_KEY = "${{ secrets.OWM_API_KEY }}"
+          EOF
+
+      - name: Run refresh script
+        run: |
+          cd live_forecast
+          python refresh_live_dashboard.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add live_forecast/live_dashboard.html live_forecast/live_dashboard_data.json
+          git diff --staged --quiet || git commit -m "Auto-refresh live dashboard"
+          git push
