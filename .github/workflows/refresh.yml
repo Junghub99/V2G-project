@@ -1,9 +1,7 @@
 name: Refresh live dashboard
 
 on:
-  schedule:
-    - cron: '0 * * * *'   # 매시간 정각(UTC)
-  workflow_dispatch: {}    # Actions 탭에서 수동 실행 가능
+  workflow_dispatch: {}    # 자동 스케줄은 꺼둠 - Actions 탭에서 필요할 때만 수동 실행
 
 permissions:
   contents: write
