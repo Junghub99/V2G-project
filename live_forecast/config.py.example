@@ -1,0 +1,19 @@
+"""공공데이터포털 서비스키 설정 템플릿.
+이 파일을 config.py로 복사하고 실제 키를 채워넣는다. config.py는 .gitignore에 있어 커밋되지 않는다.
+클라우드 루틴에서 실행할 때는, 루틴 프롬프트가 이 내용을 실제 키 값으로 채운 config.py를
+실행 전에 직접 써주는 방식을 쓴다 (레포에는 키를 올리지 않는다).
+"""
+
+# data.go.kr 마이페이지 > 활용신청 현황에 있는 "일반 인증키(Decoding)" 원문.
+SERVICE_KEY = "여기에_기상청_단기예보_서비스키"
+
+# 제주시 기상청 단기예보 격자좌표 (Lambert Conformal Conic 변환식으로 직접 계산 - 위경도 33.4996, 126.5312)
+JEJU_NX = 53
+JEJU_NY = 38
+
+# 제주시 위경도 (OpenWeatherMap 등 위경도 기반 API용)
+JEJU_LAT = 33.4996
+JEJU_LON = 126.5312
+
+# OpenWeatherMap API 키 (5일/3시간 예보 - 무료. One Call 3.0은 별도 유료 구독 필요라 미사용)
+OWM_KEY = "여기에_OpenWeatherMap_키"
